@@ -1,4 +1,5 @@
 /Student_ms/target/
+<<<<<<< HEAD
 /Student_ms/mvnw
 /Student_ms/mvnw.cmd
 /Student_ms/src/test/
@@ -7,16 +8,31 @@
 /Student_ms/HELP.md
 
 
+=======
+/Student_ms/mvnw.cmd
+/Student_ms/mvnw.cmd
+/Student_ms/src/test/
+/Student_ms/.idea
+/Student_ms/.mvn/**
+/Student_ms/HELP.md
+
+mvnw.cmgid
+>>>>>>> 652dfafe9e3199986323dff3d89739f9d1646af9
 /cours-ms/target/
 /cours-ms/mvnw.cmd
 /cours-ms/mvnw
 /cours-ms/src/test/**
 /cours-ms/.idea
+<<<<<<< HEAD
 /cours-ms/.mvn/
+=======
+/cours-ms/.mvn/**
+>>>>>>> 652dfafe9e3199986323dff3d89739f9d1646af9
 /cours-ms/HELP.md
 
 
 
+<<<<<<< HEAD
 
 /eureka_server/targer/
 /eureka_server/mvnw.cmd
@@ -26,3 +42,5 @@
 /eureka_server/.mvn/
 /eureka_server/HELP.md
 /eureka_server/test/
+=======
+>>>>>>> 652dfafe9e3199986323dff3d89739f9d1646af9
