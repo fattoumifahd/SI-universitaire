@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.validation.Validator;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,16 +30,20 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
+    public Student getStudent(@PathVariable Long id) {
         Optional<Student> student = studentService.findById(id);
-        return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//        return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if (student.isPresent()) {
+            return  student.get();
+        } else {
+            return null;
+        }
     }
 
 
     @PostMapping("/create")
-    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentDto studentDto) {
-        studentService.create(studentDto);
-        return ResponseEntity.ok(HttpStatus.CREATED);
+    public Student createStudent(@Valid @RequestBody StudentDto studentDto) {
+        return studentService.create(studentDto);
     }
 
     @PutMapping("/update/{id}")
