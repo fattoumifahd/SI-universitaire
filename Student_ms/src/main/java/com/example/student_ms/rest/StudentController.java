@@ -2,6 +2,7 @@ package com.example.student_ms.rest;
 
 import com.example.student_ms.model.Student;
 import com.example.student_ms.model.dtos.StudentDto;
+import com.example.student_ms.model.dtos.StudentRegistrationDto;
 import com.example.student_ms.services.StudentService;
 import jakarta.validation.Valid;
 import jdk.javadoc.doclet.Reporter;
@@ -30,20 +31,17 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public Student getStudent(@PathVariable Long id) {
+    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
         Optional<Student> student = studentService.findById(id);
-//        return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-        if (student.isPresent()) {
-            return  student.get();
-        } else {
-            return null;
-        }
+        return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
     @PostMapping("/create")
-    public Student createStudent(@Valid @RequestBody StudentDto studentDto) {
-        return studentService.create(studentDto);
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentRegistrationDto dto) {
+//        studentService.create(studentDto);
+            studentService.studentRegistration(dto);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")

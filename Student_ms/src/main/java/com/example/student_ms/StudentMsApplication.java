@@ -3,9 +3,11 @@ package com.example.student_ms;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients("com.example.student_ms.proxy")
 public class StudentMsApplication {
 
     public static void main(String[] args) {

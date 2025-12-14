@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,6 +24,11 @@ public class Student {
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
     private FieldsOfStudies field;
+    private Integer currentSemester;
+    @ElementCollection
+    private List<Integer> validatedSemesters;
+
+
     private String password;
     private String username;
 
