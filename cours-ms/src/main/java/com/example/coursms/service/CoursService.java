@@ -2,7 +2,7 @@ package com.example.coursms.service;
 
 import com.example.coursms.dao.CoursRepository;
 import com.example.coursms.model.Cour;
-import com.example.coursms.model.dtos.CourDto;
+import com.example.coursms.model.dto.CourDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class CoursService {
         return coursRepository.findAll();
     }
 
-    public Cour create(CourDto cour)  {
+    public Cour create(CourDTO cour)  {
         Cour coursEntity = modelMapper.map(cour, Cour.class);
         coursRepository.save(coursEntity);
         return coursEntity;
@@ -36,7 +36,7 @@ public class CoursService {
             return null;
         }
     }
-    public Cour update(Long id, CourDto courDto) {
+    public Cour update(Long id, CourDTO courDto) {
         Optional<Cour> cours = coursRepository.findById(id);
         if (cours.isPresent()) {
             Cour cour = modelMapper.map(cours.get(), Cour.class);
