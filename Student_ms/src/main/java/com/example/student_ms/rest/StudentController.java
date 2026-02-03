@@ -1,11 +1,19 @@
 package com.example.student_ms.rest;
 
+import com.example.student_ms.dao.ReleveDeNotesRepository;
+import com.example.student_ms.model.ReleveDeNotesEntity;
 import com.example.student_ms.model.Student;
+import com.example.student_ms.model.dtos.ReleveDeNotes;
 import com.example.student_ms.model.dtos.StudentDto;
+import com.example.student_ms.model.dtos.StudentGradeDTO;
 import com.example.student_ms.model.dtos.StudentRegistrationDto;
 import com.example.student_ms.services.StudentService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.validation.Valid;
 import jdk.javadoc.doclet.Reporter;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,19 +23,32 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.validation.Validator;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
-    private final StudentService studentService;
-    private final ModelMapper modelMapper;
-
     @Autowired
-    public StudentController(StudentService studentService, ModelMapper modelMapper) {
-        this.studentService = studentService;
-        this.modelMapper = modelMapper;
+    private  StudentService studentService;
+    @Autowired
+    private  ModelMapper modelMapper;
+    @Autowired
+    private ReleveDeNotesRepository releveDeNotesRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    //    @Autowired
+//    public StudentController(StudentService studentService, ModelMapper modelMapper) {
+//        this.studentService = studentService;
+//        this.modelMapper = modelMapper;
+//    }
+    @Retry(name = "StudentRetry", fallbackMethod = "StudentListFallback")
+    @CircuitBreaker(name = "StudentBraker" , fallbackMethod = "StudentListFallback")
+    @GetMapping
+    public ResponseEntity<List<StudentDto>> getAllStudents(){
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @GetMapping("/{id}")
@@ -61,6 +82,23 @@ public class StudentController {
             return new ResponseEntity<>("Student with id " + id + " has been deleted", HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>("Error While delete student", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    public List<StudentDto> StudentListFallback(Throwable throwable) {
+        System.err.println("FallBack List of Employees" + throwable.getMessage());
+        return List.of(new StudentDto(null, "no one", "no one", "nothing", LocalDate.now(), "no one" , 0));
+    }
+    @GetMapping("/students/{studentId}/releve")
+    public ReleveDeNotes getReleve(@PathVariable Long studentId) {
+        ReleveDeNotesEntity entity = releveDeNotesRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("Relevé not found"));
+
+        try {
+            return objectMapper.readValue(entity.getTranscriptJson(), ReleveDeNotes.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse transcript", e);
         }
     }
 }

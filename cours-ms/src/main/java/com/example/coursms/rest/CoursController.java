@@ -49,4 +49,9 @@ public class CoursController {
             return new ResponseEntity<>(cour, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/module/{moduleId}")
+    public ResponseEntity<List<CourDTO>> getCoursByModuleId(@PathVariable Long moduleId) {
+        return ResponseEntity.ok(coursService.getCoursesByModuleId(moduleId));
+    }
 }

@@ -11,6 +11,8 @@ import lombok.Setter;
 public class StudentRegistrationDto extends  StudentDto {
 
     private Boolean hasEquivalence;
-    private Integer equivalenceSemster;
+    private Integer equivalenceSemester;
+
+
 
 }

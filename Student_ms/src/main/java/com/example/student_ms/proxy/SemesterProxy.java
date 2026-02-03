@@ -7,26 +7,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(
-        name = "coursms",
+        name = "coursms-semester",
         url = "http://localhost:8081/api/semester"   // example: http://localhost:8081
 )
 public interface SemesterProxy {
-    @PostMapping("/api/semester")
+    @PostMapping("")
     SemesterDTO createSemester(@RequestBody SemesterDTO semester);
 
-    @PutMapping("/api/semester/{id}")
+    @PutMapping("/{id}")
     SemesterDTO updateSemester(@PathVariable("id") Long id,
                                @RequestBody SemesterDTO semester);
 
-    @GetMapping("/api/semester/{id}")
+    @GetMapping("/{id}")
     SemesterDTO getSemesterById(@PathVariable("id") Long id);
 
-    @GetMapping("/api/semester")
+    @GetMapping("")
     List<SemesterDTO> getAllSemesters();
 
-    @GetMapping("/api/semester/field/{fieldId}")
+    @GetMapping("/field/{fieldId}")
     List<SemesterDTO> getSemestersByField(@PathVariable("fieldId") Long fieldId);
 
-    @DeleteMapping("/api/semester/{id}")
+    @DeleteMapping("/{id}")
     void deleteSemester(@PathVariable("id") Long id);
+
+
 }

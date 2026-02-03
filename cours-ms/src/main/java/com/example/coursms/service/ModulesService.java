@@ -3,11 +3,13 @@ package com.example.coursms.service;
 import com.example.coursms.dao.ModuleRepository;
 import com.example.coursms.exception.ResourceNotFoundException;
 import com.example.coursms.model.Module;
+import com.example.coursms.model.dto.SemesterDTO;
 import com.example.coursms.service.Interface.IModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ModulesService  implements IModuleService {
@@ -64,4 +66,16 @@ public class ModulesService  implements IModuleService {
         Module module = getModuleById(id);
         moduleRepository.delete(module);
     }
+
+
+//    @Override
+    public List<Module> getModulesBySemesterNameAndField(String semesterName, Long fieldId) {
+        List<Module> modules = moduleRepository.findAll();
+        return  modules.stream().filter(m ->
+                        m.getSemester().getName().equals(semesterName)
+                        && m.getSemester().getFieldOfStudy().getId().equals(fieldId))
+                .collect(Collectors.toList());
+
+    }
+
 }

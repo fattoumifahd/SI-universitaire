@@ -1,6 +1,7 @@
 package com.example.student_ms.config;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

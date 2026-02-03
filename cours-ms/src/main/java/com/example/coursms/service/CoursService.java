@@ -6,8 +6,10 @@ import com.example.coursms.model.dto.CourDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CoursService {
@@ -54,5 +56,16 @@ public class CoursService {
             throw new RuntimeException("Cour Not Found !");
         }
 
+    }
+
+    public List<CourDTO> getCoursesByModuleId(Long moduleId) {
+        List<Cour> courses = coursRepository.findAll().
+                stream().filter(c -> c.getModule().getId().equals(moduleId)).collect(Collectors.toList());
+        List<CourDTO> courDTOS = new ArrayList<>();
+        for (Cour cour : courses) {
+            CourDTO courDTO = modelMapper.map(cour, CourDTO.class);
+            courDTOS.add(courDTO);
+        }
+        return courDTOS;
     }
 }

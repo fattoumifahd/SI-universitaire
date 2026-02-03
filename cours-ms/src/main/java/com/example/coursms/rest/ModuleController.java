@@ -3,6 +3,7 @@ package com.example.coursms.rest;
 import com.example.coursms.model.Module;
 import com.example.coursms.service.ModulesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,14 @@ public class ModuleController {
     @GetMapping("/semester/{semesterId}")
     public ResponseEntity<List<Module>> getModulesBySemester(@PathVariable Long semesterId) {
         return ResponseEntity.ok(moduleService.getModulesBySemester(semesterId));
+    }
+
+    @GetMapping("/semester/{semesterName}/{fieldId}")
+    public ResponseEntity<List<Module>> getModulesBySemesterAndFieldId(@PathVariable String semesterName, @PathVariable Long fieldId) {
+
+        List<Module> modules = moduleService.getModulesBySemesterNameAndField(semesterName,fieldId);
+        return new ResponseEntity<>(modules, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")
