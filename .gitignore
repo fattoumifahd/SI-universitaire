@@ -33,3 +33,8 @@
 /*/mvnw.cmd
 /*/targer/
 /*/.mvn/
+/*/src/test/
+
+/readme.txt
+.idea
+config_server
